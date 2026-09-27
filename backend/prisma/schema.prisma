@@ -1,0 +1,160 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  password     String
+  name         String
+  role         String    @default("ADMIN")
+  refreshToken String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model About {
+  id                String    @id @default(uuid())
+  name              String
+  title             String
+  shortBio          String
+  fullBio           String
+  avatarUrl         String?
+  resumeUrl         String?
+  email             String
+  phone             String?
+  location          String?
+  yearsExperience   Int       @default(0)
+  completedProjects Int       @default(0)
+  happyClients      Int       @default(0)
+  githubUrl         String?
+  linkedinUrl       String?
+  twitterUrl        String?
+  leetcodeUrl       String?
+  isAvailable       Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Skill {
+  id          String   @id @default(uuid())
+  name        String
+  category    String   // "Frontend", "Backend", "Database", "DevOps & Cloud", "Tools & Frameworks"
+  proficiency Int      @default(80) // 0 to 100
+  icon        String?  // Icon name (lucide icon name or URL)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+}
+
+model Project {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  summary      String
+  description  String
+  coverImage   String?
+  technologies String   // JSON string or comma-separated list of tags
+  liveUrl      String?
+  githubUrl    String?
+  featured     Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([featured])
+}
+
+model Blog {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  excerpt     String
+  content     String
+  coverImage  String?
+  tags        String    // JSON string or comma-separated list of tags
+  author      String    @default("Vamsi")
+  readTime    String    @default("5 min read")
+  published   Boolean   @default(true)
+  publishedAt DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([published])
+}
+
+model Experience {
+  id           String    @id @default(uuid())
+  role         String
+  company      String
+  companyUrl   String?
+  location     String?
+  type         String    @default("Full-time") // "Full-time", "Contract", "Freelance", "Internship"
+  startDate    String    // e.g. "Jan 2023" or ISO string
+  endDate      String?   // e.g. "Present" or ISO string
+  isCurrent    Boolean   @default(false)
+  description  String
+  achievements String?   // JSON string array or bullet points
+  technologies String?   // JSON string array or comma separated
+  order        Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Testimonial {
+  id            String   @id @default(uuid())
+  clientName    String
+  clientRole    String
+  clientCompany String
+  clientAvatar  String?
+  rating        Int      @default(5)
+  content       String
+  projectTitle  String?
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  icon        String?  // Icon name
+  features    String?  // JSON string or comma separated features
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  ipAddress String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isRead])
+}
+
+model Media {
+  id           String   @id @default(uuid())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  altText      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

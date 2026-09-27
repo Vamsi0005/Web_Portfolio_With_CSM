@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-Ready Full-Stack Portfolio with Custom CMS & Admin Panel",
+  "scripts": {
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install && npm --prefix admin install",
+    "db:push": "npm --prefix backend run prisma:push",
+    "db:seed": "npm --prefix backend run prisma:seed",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:admin": "npm --prefix admin run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:admin": "npm --prefix admin run build"
+  }
+}
